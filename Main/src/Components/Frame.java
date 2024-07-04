@@ -7,8 +7,8 @@ import javax.swing.event.*; // Importing change event classes
 
 public class Frame extends JFrame implements ActionListener, ChangeListener {
     private final DrawingPanel drawingPanel; // Components.DrawingPanel instance for the right panel
-    private final ImageListPanel imageListPanel; // Components.ImageListPanel instance for the left panel
-
+    private ImageListPanel imageListPanel; // Components.ImageListPanel instance for the left panel
+    private final ComposerPanel composerPanel;
     private String imageFolderPath = "C:\\Users\\ASUS\\Documents\\GitHub\\OOAD-Assignment\\Main\\Assets\\Animals"; // Path to the image folder
 
     // Constructor to initialize the main application frame
@@ -33,14 +33,14 @@ public class Frame extends JFrame implements ActionListener, ChangeListener {
         mainPanel.add(imageListPanel, gbc);
 
         // Setup the middle panel (placeholder)
-        JPanel leftPanel = new JPanel();
-        leftPanel.setBackground(Color.LIGHT_GRAY);
+        composerPanel = new ComposerPanel(); // Create an instance of Components.ComposerPanel
+        composerPanel.setBackground(Color.LIGHT_GRAY);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.4; // Weight for the middle panel (leftPanel)
-        mainPanel.add(leftPanel, gbc);
+        mainPanel.add(composerPanel, gbc);
 
         // Set up the right panel (drawing panel)
         drawingPanel = new DrawingPanel();
@@ -89,19 +89,41 @@ public class Frame extends JFrame implements ActionListener, ChangeListener {
        //receive the action command from the combo box
         else if (e.getActionCommand().equals("Animals")) { // Handle image list selection
             imageFolderPath = "C:\\Users\\ASUS\\Documents\\GitHub\\OOAD-Assignment\\Main\\Assets\\Animals"; // Set the image folder path
-            imageListPanel.loadImagesFromFolder(imageFolderPath); // Update the image list panel
+            updateImageListPanel();
         }
 
         else if (e.getActionCommand().equals("Flowers")) { // Handle image list selection
             imageFolderPath = "C:\\Users\\ASUS\\Documents\\GitHub\\OOAD-Assignment\\Main\\Assets\\Flowers"; // Set the image folder path
-            imageListPanel.loadImagesFromFolder(imageFolderPath); // Update the image list panel
+            updateImageListPanel();
         }
 
         else if (e.getActionCommand().equals("Compositions")) { // Handle image list selection
             imageFolderPath = "C:\\Users\\ASUS\\Documents\\GitHub\\OOAD-Assignment\\Main\\Assets\\Compositions"; // Set the image folder path
-            imageListPanel.loadImagesFromFolder(imageFolderPath); // Update the image list panel
+            updateImageListPanel(); // Update the image list panel
+        }
+        else if (e.getActionCommand().equals("Add Image")) { // deploy selected image to the left panel
+            ImageIcon selectedImage = imageListPanel.getSelectedImage(); // Get the selected image from the image list panel
+            if (selectedImage != null) {
+                composerPanel.addImage(selectedImage); // Add the selected image to the drawing panel
+            }
+        }
+        else if (e.getActionCommand().equals("Delete Image")) { // Handle delete image action
+
+        }
+        else if (e.getActionCommand().equals("Save Composition")) { // Handle save composition action
+
         }
     }
+
+    private void updateImageListPanel() {
+        this.remove(imageListPanel);
+        imageListPanel = new ImageListPanel(imageFolderPath);
+        this.add(imageListPanel, BorderLayout.WEST);
+        this.revalidate();
+        this.repaint();
+    }
+
+
 
     // Change event handler for the slider
     @Override

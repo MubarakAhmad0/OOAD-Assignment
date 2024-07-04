@@ -10,13 +10,14 @@ import javax.imageio.ImageIO;
 public class ImageListPanel extends JPanel {
     private static final int ICON_SIZE = 228; // Define the size of the icons
     private final DefaultListModel<ImageIcon> imageListModel;
+    private final JList<ImageIcon> imageList;
 
     public ImageListPanel(String folderPath) {
         setLayout(new BorderLayout());
         imageListModel = new DefaultListModel<>();
         loadImagesFromFolder(folderPath);
 
-        JList<ImageIcon> imageList = new JList<>(imageListModel);
+        imageList = new JList<>(imageListModel);
         imageList.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
             JLabel label = new JLabel(value);
             label.setOpaque(true);
@@ -34,9 +35,7 @@ public class ImageListPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void loadImagesFromFolder(String folderPath) {
-        imageListModel.clear();
-
+    void loadImagesFromFolder(String folderPath) {
         File folder = new File(folderPath);
         if (folder.exists() && folder.isDirectory()) {
             File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".webp") || name.toLowerCase().endsWith(".png") || name.toLowerCase().endsWith(".jpg") || name.toLowerCase().endsWith(".jpeg"));
@@ -62,5 +61,9 @@ public class ImageListPanel extends JPanel {
         g.drawImage(originalImage, 0, 0, ImageListPanel.ICON_SIZE, ImageListPanel.ICON_SIZE, null);
         g.dispose();
         return resizedImage;
+    }
+
+    public ImageIcon getSelectedImage() {
+        return imageList.getSelectedValue();
     }
 }
