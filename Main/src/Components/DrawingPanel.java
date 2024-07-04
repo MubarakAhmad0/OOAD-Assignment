@@ -6,7 +6,6 @@ import javax.swing.*; // Importing Swing classes
 import java.awt.image.*; // Importing classes for image handling
 import java.io.*; // Importing IO classes
 import javax.imageio.*; // Importing classes for image IO
-import MainApplication.*; // Importing classes from the MainApplication package
 
 public class DrawingPanel extends JPanel implements MouseMotionListener, MouseListener, ComponentListener {
     private BufferedImage image; // BufferedImage to store the drawing

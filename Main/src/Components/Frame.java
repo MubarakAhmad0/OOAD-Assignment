@@ -5,14 +5,14 @@ import java.awt.event.*; // Importing event handling classes
 import javax.swing.*; // Importing Swing classes
 import javax.swing.event.*; // Importing change event classes
 
-public class DrawingProgram extends JFrame implements ActionListener, ChangeListener {
+public class Frame extends JFrame implements ActionListener, ChangeListener {
     private final DrawingPanel drawingPanel; // Components.DrawingPanel instance for the right panel
     private final ImageListPanel imageListPanel; // Components.ImageListPanel instance for the left panel
 
     private String imageFolderPath = "C:\\Users\\ASUS\\Documents\\GitHub\\OOAD-Assignment\\Main\\Assets\\Animals"; // Path to the image folder
 
     // Constructor to initialize the main application frame
-    public DrawingProgram() {
+    public Frame() {
         super("Painter"); // Set the title of the frame
 
         // Setup toolbar
