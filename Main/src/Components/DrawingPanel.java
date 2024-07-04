@@ -1,11 +1,14 @@
+package Components;
+
 import java.awt.*; // Importing necessary AWT classes
 import java.awt.event.*; // Importing event handling classes
 import javax.swing.*; // Importing Swing classes
 import java.awt.image.*; // Importing classes for image handling
 import java.io.*; // Importing IO classes
 import javax.imageio.*; // Importing classes for image IO
+import MainApplication.*; // Importing classes from the MainApplication package
 
-public class DrawingPanel extends JPanel implements MouseMotionListener, MouseListener {
+public class DrawingPanel extends JPanel implements MouseMotionListener, MouseListener, ComponentListener {
     private BufferedImage image; // BufferedImage to store the drawing
     private Graphics2D g2d; // Graphics2D object to draw on the BufferedImage
     private Point mousePnt = new Point(); // Point to track the mouse position
@@ -19,6 +22,7 @@ public class DrawingPanel extends JPanel implements MouseMotionListener, MouseLi
         this.setBackground(Color.WHITE); // Set background color of the panel
         this.addMouseMotionListener(this); // Add mouse motion listener
         this.addMouseListener(this); // Add mouse listener
+        this.addComponentListener(this); // Add component listener for resize events
         this.image = new BufferedImage(400, 600, BufferedImage.TYPE_INT_ARGB); // Create a buffered image
         this.g2d = (Graphics2D) image.getGraphics(); // Get the Graphics2D object from the buffered image
         clearImage(); // Clear the image to start with a blank canvas
@@ -103,4 +107,25 @@ public class DrawingPanel extends JPanel implements MouseMotionListener, MouseLi
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    // Component event handler for resizing
+    @Override
+    public void componentResized(ComponentEvent e) {
+        // Create a new buffered image with the new size
+        BufferedImage newImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D newG2d = (Graphics2D) newImage.getGraphics();
+        newG2d.drawImage(image, 0, 0, null); // Draw the old image onto the new image
+        g2d.dispose(); // Dispose of the old graphics context
+        image = newImage; // Update the buffered image
+        g2d = newG2d; // Update the graphics context
+        repaint(); // Repaint the panel
+    }
+
+    // Other component event handlers (not used but required by the interface)
+    @Override
+    public void componentMoved(ComponentEvent e) {}
+    @Override
+    public void componentShown(ComponentEvent e) {}
+    @Override
+    public void componentHidden(ComponentEvent e) {}
 }
