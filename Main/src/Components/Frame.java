@@ -30,7 +30,7 @@ public class Frame extends JFrame implements ActionListener, ChangeListener {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.2; // Weight for the left panel (imageListPanel)
         gbc.weighty = 1.0;
-        mainPanel.add(imageListPanel, gbc);
+        //mainPanel.add(imageListPanel, gbc);
 
         // Setup the middle panel (placeholder)
         composerPanel = new ComposerPanel(); // Create an instance of Components.ComposerPanel
@@ -108,6 +108,7 @@ public class Frame extends JFrame implements ActionListener, ChangeListener {
             }
         }
         else if (e.getActionCommand().equals("Delete Image")) { // Handle delete image action
+            composerPanel.deleteSelectedImage(); // Delete the selected image from the drawing panel
 
         }
         else if (e.getActionCommand().equals("Save Composition")) { // Handle save composition action

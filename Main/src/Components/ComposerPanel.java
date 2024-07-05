@@ -60,6 +60,14 @@ public class ComposerPanel extends JPanel {
         }
     }
 
+    public void deleteSelectedImage() {
+        if (selectedImage != null) {
+            images.remove(selectedImage);
+            selectedImage = null;
+            repaint();
+        }
+    }
+
     private static class DraggableImage {
         private final ImageIcon imageIcon;
         private int x, y;

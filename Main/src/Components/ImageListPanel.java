@@ -63,6 +63,7 @@ public class ImageListPanel extends JPanel {
         return resizedImage;
     }
 
+
     public ImageIcon getSelectedImage() {
         return imageList.getSelectedValue();
     }
