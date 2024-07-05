@@ -111,8 +111,8 @@ public class Frame extends JFrame implements ActionListener, ChangeListener {
             composerPanel.deleteSelectedImage(); // Delete the selected image from the drawing panel
 
         }
-        else if (e.getActionCommand().equals("Save Composition")) { // Handle save composition action
-
+        else if (e.getActionCommand().equals("Save Composition")) {
+            composerPanel.saveComposition(); // Save the composition to a file
         }
     }
 

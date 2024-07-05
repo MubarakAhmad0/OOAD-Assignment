@@ -68,6 +68,12 @@ public class ComposerPanel extends JPanel {
         }
     }
 
+    public void saveComposition() {
+        // Save composition to a file
+
+    }
+
+
     private static class DraggableImage {
         private final ImageIcon imageIcon;
         private int x, y;
