@@ -1,11 +1,16 @@
 package Components;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
 
 public class ComposerPanel extends JPanel {
     private static List<DraggableImage> images;
@@ -70,8 +75,33 @@ public class ComposerPanel extends JPanel {
 
     public void saveComposition() {
         // Save composition to a file
-
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            String storagePath = fileChooser.getSelectedFile().getAbsolutePath();
+    
+            if (!storagePath.endsWith(".png")) {
+                storagePath += ".png";
+            }
+    
+            try {
+                // Get BufferedImage from ImageIcon
+                BufferedImage bufferedImage = new BufferedImage(
+                        selectedImage.getImageIcon().getIconWidth(),
+                        selectedImage.getImageIcon().getIconHeight(),
+                        BufferedImage.TYPE_INT_ARGB);
+                
+                Graphics2D g2d = bufferedImage.createGraphics();
+                g2d.drawImage(selectedImage.getImageIcon().getImage(), 0, 0, null);
+                g2d.dispose();
+    
+                // Write BufferedImage to file
+                ImageIO.write(bufferedImage, "png", new File(storagePath));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+    
 
 
     private static class DraggableImage {
