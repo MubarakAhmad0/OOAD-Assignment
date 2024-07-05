@@ -12,9 +12,8 @@ public class ToolbarPanel extends JPanel {
     public ToolbarPanel(ActionListener actionListener, ChangeListener changeListener) {
         super(new FlowLayout(FlowLayout.LEFT));
 
-        add(Box.createRigidArea(new Dimension(75, 0))); // Add horizontal space
 
-        JComboBox<String> folderList = new JComboBox<>(new String[]{"Animals", "Flowers", "Compositions"});
+        JComboBox<String> folderList = new JComboBox<>(new String[]{"Choose Creation","Animals", "Flowers", "Compositions"});
         folderList.addActionListener(e -> {
             String selectedFolder = (String) folderList.getSelectedItem();
             if (selectedFolder != null) {
@@ -28,7 +27,7 @@ public class ToolbarPanel extends JPanel {
         addImage.addActionListener(actionListener);
         add(addImage);
 
-        add(Box.createRigidArea(new Dimension(300, 0))); // Add horizontal space
+        add(Box.createRigidArea(new Dimension(200, 0))); // Add horizontal space
 
         JButton deleteImage = new JButton("Delete Image");
         deleteImage.addActionListener(actionListener);
