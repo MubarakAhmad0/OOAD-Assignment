@@ -15,7 +15,7 @@ public class ImageListPanel extends JPanel {
     private final JList<ImageIcon> imageList;
     private final List<String> animalNames = List.of("cat", "dog", "lion", "tiger", "elephant"); // Example animal names
     private final List<String> flowerNames = List.of("rose", "tulip", "daisy", "sunflower", "orchid"); // Example flower names
-    private final List<String> compositionNames = List.of("abstract", "modern", "classic", "cubism", "baroque"); // Example composition names
+
 
     public ImageListPanel(String folderPath) {
         setLayout(new BorderLayout());
@@ -42,7 +42,7 @@ public class ImageListPanel extends JPanel {
 
     void loadImagesFromFolder(String folderPath) {
         File folder = new File(folderPath);
-        File[] validFiles = validateFiles(folder);
+        File[] validFiles = validateFolder(folder);
         if (validFiles != null) {
             for (File file : validFiles) {
                 try {
@@ -58,7 +58,7 @@ public class ImageListPanel extends JPanel {
         }
     }
 
-    private File[] validateFiles(File folder) {
+    private File[] validateFolder(File folder) {
         File[] files = filterFilesByType(folder, "webp", "png", "jpg", "jpeg");
         if (files == null) return new File[0];
         switch (folder.getName()) {
@@ -67,9 +67,6 @@ public class ImageListPanel extends JPanel {
                 break;
             case "Flowers":
                 files = filterFilesByName(files, flowerNames);
-                break;
-            case "Compositions":
-                files = filterFilesByName(files, compositionNames);
                 break;
             default:
                 break;
@@ -117,3 +114,4 @@ public class ImageListPanel extends JPanel {
         return imageList.getSelectedValue();
     }
 }
+

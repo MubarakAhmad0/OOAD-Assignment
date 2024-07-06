@@ -15,7 +15,7 @@ public class ComposerPanel extends JPanel {
     private static List<TransformativeImage> images;
     private TransformativeImage selectedImage;
     private Point prevPt;
-
+    private int compositionCount;
     public ComposerPanel() {
         images = new ArrayList<>();
         this.setBackground(Color.LIGHT_GRAY);
@@ -73,39 +73,27 @@ public class ComposerPanel extends JPanel {
     }
 
     public void saveComposition() {
-        // Use a file chooser to select the save location
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Specify a file to save");
-        int userSelection = fileChooser.showSaveDialog(this);
+        compositionCount++;
+        String filePath = "C:\\Users\\ASUS\\Documents\\GitHub\\OOAD-Assignment\\Main\\Assets\\Compositions\\composition" + compositionCount + ".png";
 
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            String filePath = fileToSave.getAbsolutePath();
+        int width = this.getWidth();
+        int height = this.getHeight();
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        this.paint(g2d);
+        g2d.dispose();
 
-            if (!filePath.toLowerCase().endsWith(".png")) {
-                filePath += ".png";
-            }
-
-            int width = this.getWidth();
-            int height = this.getHeight();
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2d = image.createGraphics();
-            this.paint(g2d);
-            g2d.dispose();
-
-            try {
-                File file = new File(filePath);
-                ImageIO.write(image, "png", file);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error saving composition: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        try {
+            File file = new File(filePath);
+            ImageIO.write(image, "png", file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving composition: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
     private static class TransformativeImage {
         private final ImageIcon imageIcon;
-        private Point screenPosition;
+        private final Point screenPosition;
         private double angle;
         private double size;
 
@@ -130,7 +118,7 @@ public class ComposerPanel extends JPanel {
             // Rotate image
             BufferedImage rotatedImg = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2d = rotatedImg.createGraphics();
-            g2d.rotate(angle, scaledWidth / 2, scaledHeight / 2);
+            g2d.rotate(angle, (double) scaledWidth / 2, (double) scaledHeight / 2);
             g2d.drawImage(scaledImg, 0, 0, null);
             g2d.dispose();
 

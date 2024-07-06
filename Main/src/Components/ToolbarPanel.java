@@ -12,8 +12,7 @@ public class ToolbarPanel extends JPanel {
     public ToolbarPanel(ActionListener actionListener, ChangeListener changeListener) {
         super(new FlowLayout(FlowLayout.LEFT));
 
-
-        JComboBox<String> folderList = new JComboBox<>(new String[]{"Choose Creation","Animals", "Flowers", "Compositions"});
+        JComboBox<String> folderList = new JComboBox<>(new String[]{"Choose Creation","Animals", "Flowers", "Compositions", "Drawn Images"});
         folderList.addActionListener(e -> {
             String selectedFolder = (String) folderList.getSelectedItem();
             if (selectedFolder != null) {
@@ -21,7 +20,6 @@ public class ToolbarPanel extends JPanel {
             }
         });
         add(folderList);
-
 
         JButton addImage = new JButton("Add Image");
         addImage.addActionListener(actionListener);
