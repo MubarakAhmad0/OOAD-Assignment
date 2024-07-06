@@ -13,8 +13,8 @@ import javax.swing.*;
 
 
 public class ComposerPanel extends JPanel {
-    private static List<DraggableImage> images;
-    private DraggableImage selectedImage;
+    private static List<TransformativeImage> images;
+    private TransformativeImage selectedImage;
     private Point prevPt;
 
     public ComposerPanel() {
@@ -24,7 +24,7 @@ public class ComposerPanel extends JPanel {
         MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                for (DraggableImage img : images) {
+                for (TransformativeImage img : images) {
                     if (img.contains(e.getPoint())) {
                         selectedImage = img;
                         prevPt = e.getPoint();
@@ -53,14 +53,14 @@ public class ComposerPanel extends JPanel {
     }
 
     public void addImage(ImageIcon imageIcon) {
-        images.add(new DraggableImage(imageIcon));
+        images.add(new TransformativeImage(imageIcon));
         repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (DraggableImage img : images) {
+        for (TransformativeImage img : images) {
             g.drawImage(img.getImageIcon().getImage(), img.getX(), img.getY(), null);
         }
     }
@@ -101,40 +101,65 @@ public class ComposerPanel extends JPanel {
             }
         }
     }
-    
 
-
-    private static class DraggableImage {
+    private static class TransformativeImage {
         private final ImageIcon imageIcon;
-        private int x, y;
+        private Point screenPosition;
+        private double angle;
+        private double size;
 
-        public DraggableImage(ImageIcon imageIcon) {
+        public TransformativeImage(ImageIcon imageIcon) {
             this.imageIcon = imageIcon;
-            this.x = 0;
-            this.y = 0;
+            this.screenPosition = new Point(0, 0);  // Initialize screen position at (0, 0)
+            this.angle = 0.0;  // Initial angle
+            this.size = 1.0;   // Initial size
         }
 
         public ImageIcon getImageIcon() {
-            return imageIcon;
+            // Depending on transformations applied, return appropriate ImageIcon
+            Image img = imageIcon.getImage();
+            int width = img.getWidth(null);
+            int height = img.getHeight(null);
+
+            // Scale image
+            int scaledWidth = (int) (width * size);
+            int scaledHeight = (int) (height * size);
+            Image scaledImg = img.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+
+            // Rotate image
+            BufferedImage rotatedImg = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = rotatedImg.createGraphics();
+            g2d.rotate(angle, scaledWidth / 2, scaledHeight / 2);
+            g2d.drawImage(scaledImg, 0, 0, null);
+            g2d.dispose();
+
+            return new ImageIcon(rotatedImg);
         }
 
         public int getX() {
-            return x;
+            return (int) screenPosition.getX();
         }
 
         public int getY() {
-            return y;
+            return (int) screenPosition.getY();
         }
 
         public void translate(int dx, int dy) {
-            this.x += dx;
-            this.y += dy;
+            screenPosition.setLocation(screenPosition.getX() + dx, screenPosition.getY() + dy);
+        }
+
+        public void rotate(double rotationAngle) {
+            angle += rotationAngle;
+        }
+
+        public void scale(double scaleFactor) {
+            size *= scaleFactor;
         }
 
         public boolean contains(Point p) {
             int imgWidth = imageIcon.getIconWidth();
             int imgHeight = imageIcon.getIconHeight();
-            return p.x >= x && p.x <= x + imgWidth && p.y >= y && p.y <= y + imgHeight;
+            return p.x >= getX() && p.x <= getX() + imgWidth && p.y >= getY() && p.y <= getY() + imgHeight;
         }
     }
 }
