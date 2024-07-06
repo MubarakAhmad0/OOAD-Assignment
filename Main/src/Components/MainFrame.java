@@ -37,8 +37,6 @@ public class MainFrame extends JFrame {
         composerPanel.setBackground(Color.LIGHT_GRAY);
 
         gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 0.4; // Weight for the middle panel (composerPanel)
         mainPanel.add(composerPanel, gbc);
 
