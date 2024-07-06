@@ -11,7 +11,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-
 public class ComposerPanel extends JPanel {
     private static List<TransformativeImage> images;
     private TransformativeImage selectedImage;
@@ -74,30 +73,32 @@ public class ComposerPanel extends JPanel {
     }
 
     public void saveComposition() {
-        // Save composition to a file
+        // Use a file chooser to select the save location
         JFileChooser fileChooser = new JFileChooser();
-        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            String storagePath = fileChooser.getSelectedFile().getAbsolutePath();
-    
-            if (!storagePath.endsWith(".png")) {
-                storagePath += ".png";
+        fileChooser.setDialogTitle("Specify a file to save");
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            if (!filePath.toLowerCase().endsWith(".png")) {
+                filePath += ".png";
             }
-    
+
+            int width = this.getWidth();
+            int height = this.getHeight();
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = image.createGraphics();
+            this.paint(g2d);
+            g2d.dispose();
+
             try {
-                // Get BufferedImage from ImageIcon
-                BufferedImage bufferedImage = new BufferedImage(
-                        selectedImage.getImageIcon().getIconWidth(),
-                        selectedImage.getImageIcon().getIconHeight(),
-                        BufferedImage.TYPE_INT_ARGB);
-                
-                Graphics2D g2d = bufferedImage.createGraphics();
-                g2d.drawImage(selectedImage.getImageIcon().getImage(), 0, 0, null);
-                g2d.dispose();
-    
-                // Write BufferedImage to file
-                ImageIO.write(bufferedImage, "png", new File(storagePath));
-            } catch (IOException e) {
-                e.printStackTrace();
+                File file = new File(filePath);
+                ImageIO.write(image, "png", file);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error saving composition: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

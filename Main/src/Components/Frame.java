@@ -1,5 +1,7 @@
 package Components;
 
+import com.sun.tools.javac.Main;
+
 import java.awt.*; // Importing necessary AWT classes
 import java.awt.event.*; // Importing event handling classes
 import javax.swing.*; // Importing Swing classes
@@ -113,6 +115,7 @@ public class Frame extends JFrame implements ActionListener, ChangeListener {
         }
         else if (e.getActionCommand().equals("Save Composition")) {
             composerPanel.saveComposition(); // Save the composition to a file
+            updateImageListPanel();
         }
     }
 
