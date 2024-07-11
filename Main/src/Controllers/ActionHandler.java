@@ -64,6 +64,8 @@ public class ActionHandler implements ActionListener {
             }
             case "Delete Image" -> composerPanel.deleteSelectedImage();
 
+            case "Rotate Composition" -> composerPanel.rotateComposition();
+
             case "Save Composition" -> {
                 composerPanel.saveComposition();
                 frame.updateImageListPanel();

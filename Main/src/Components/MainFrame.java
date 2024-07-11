@@ -35,9 +35,8 @@ public class MainFrame extends JFrame {
         // Setup the middle panel (placeholder)
         composerPanel = new ComposerPanel(); // Create an instance of Components.ComposerPanel
         composerPanel.setBackground(Color.LIGHT_GRAY);
-
         gbc.gridx = 1;
-        gbc.weightx = 0.4; // Weight for the middle panel (composerPanel)
+        gbc.weightx = 0.5; // Weight for the middle panel (composerPanel)
         mainPanel.add(composerPanel, gbc);
 
         // Set up the right panel (drawing panel)
@@ -46,7 +45,7 @@ public class MainFrame extends JFrame {
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 0.4; // Weight for the right panel (drawingPanel)
+        gbc.weightx = 0.3; // Weight for the right panel (drawingPanel)
         mainPanel.add(drawingPanel, gbc);
 
         this.add(mainPanel, BorderLayout.CENTER); // Add the main panel to the center of the frame

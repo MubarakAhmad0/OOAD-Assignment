@@ -63,6 +63,7 @@ public class DrawingPanel extends JPanel implements MouseMotionListener, MouseLi
         repaint(); // Repaint the panel
     }
 
+
     // Override the paintComponent method to draw the buffered image
     @Override
     protected void paintComponent(Graphics g) {

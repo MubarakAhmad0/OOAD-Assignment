@@ -35,6 +35,10 @@ public class ToolbarPanel extends JPanel {
         saveComposition.addActionListener(actionListener);
         add(saveComposition);
 
+        JButton rotateComposition = new JButton("Rotate Composition");
+        rotateComposition.addActionListener(actionListener);
+        add(rotateComposition);
+
         add(Box.createRigidArea(new Dimension(330, 0))); // Add horizontal space
 
         add(new Label("Drag mouse to draw"));
