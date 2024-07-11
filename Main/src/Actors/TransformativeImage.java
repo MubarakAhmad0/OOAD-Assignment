@@ -32,7 +32,7 @@ public class TransformativeImage {
             g2d.translate(0, -height);
         }
 
-        g2d.rotate(angle, width / 2, height / 2);
+        g2d.rotate(angle, (double) width / 2, (double) height / 2);
         g2d.drawImage(img, 0, 0, width, height, null);
         g2d.dispose();
 
