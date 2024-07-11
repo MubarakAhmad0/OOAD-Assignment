@@ -13,8 +13,8 @@ public class ImageListPanel extends JPanel {
     private static final int ICON_SIZE = 228; // Define the size of the icons
     private final DefaultListModel<ImageIcon> imageListModel;
     private final JList<ImageIcon> imageList;
-    private final List<String> animalNames = List.of("cat", "dog", "lion", "tiger", "elephant"); // Example animal names
-    private final List<String> flowerNames = List.of("rose", "tulip", "daisy", "sunflower", "orchid"); // Example flower names
+    private final List<String> animalNames = List.of("cat", "dog", "lion", "tiger", "elephant"); // Filter animal names
+    private final List<String> flowerNames = List.of("rose", "tulip", "daisy", "sunflower", "orchid"); // Filter flower names
 
 
     public ImageListPanel(String folderPath) {
