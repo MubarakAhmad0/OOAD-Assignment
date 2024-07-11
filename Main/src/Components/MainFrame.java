@@ -5,55 +5,111 @@ import Controllers.ChangeHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class MainFrame extends JFrame {
-    private final DrawingPanel drawingPanel; // Components.DrawingPanel instance for the right panel
-    private ImageListPanel imageListPanel; // Components.ImageListPanel instance for the left panel
-    private final ComposerPanel composerPanel;
-    private String imageFolderPath = "C:\\Users\\ASUS\\Documents\\GitHub\\OOAD-Assignment\\Main\\Assets\\Animals"; // Path to the image folder
+    private DrawingPanel drawingPanel;
+    private ImageListPanel imageListPanel;
+    private ComposerPanel composerPanel;
+    private String imageFolderPath = "C:\\Users\\ASUS\\Documents\\GitHub\\OOAD-Assignment\\Main\\Assets\\Animals";
 
-    // Constructor to initialize the main application frame
+    private JPanel mainPanel;
+
     public MainFrame() {
-        super("Painter"); // Set the title of the frame
+        super("Painter");
 
+        createComponents();
+        setupFrame();
+    }
+
+    private void createComponents() {
         // Setup toolbar
-        ToolbarPanel toolbar = new ToolbarPanel(new ActionHandler(this), new ChangeHandler(this)); // Create an instance of Components.ToolbarPanel
-        this.add(toolbar, BorderLayout.SOUTH); // Add the toolbar to the south of the frame
+        ToolbarPanel toolbar = new ToolbarPanel(new ActionHandler(this), new ChangeHandler(this));
+        this.add(toolbar, BorderLayout.SOUTH);
 
-        // Set up the main panel with GridBagLayout
-        JPanel mainPanel = new JPanel(new GridBagLayout());
+        // Setup mainPanel with GridBagLayout
+        mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // Create an instance of Components.ImageListPanel
+        // Left panel (image list)
         imageListPanel = new ImageListPanel(imageFolderPath);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 0.2; // Weight for the left panel (imageListPanel)
+        gbc.weightx = 0.1;
         gbc.weighty = 1.0;
+        mainPanel.add(imageListPanel, gbc);
 
-        // Setup the middle panel (placeholder)
-        composerPanel = new ComposerPanel(); // Create an instance of Components.ComposerPanel
+        // Middle panel (composer panel)
+        composerPanel = new ComposerPanel();
         composerPanel.setBackground(Color.LIGHT_GRAY);
         gbc.gridx = 1;
-        gbc.weightx = 0.5; // Weight for the middle panel (composerPanel)
+        gbc.weightx = 0.5;
         mainPanel.add(composerPanel, gbc);
 
-        // Set up the right panel (drawing panel)
+        // Right panel (drawing panel)
         drawingPanel = new DrawingPanel();
-
         gbc.gridx = 2;
         gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 0.3; // Weight for the right panel (drawingPanel)
+        gbc.weightx = 0.3;
         mainPanel.add(drawingPanel, gbc);
 
-        this.add(mainPanel, BorderLayout.CENTER); // Add the main panel to the center of the frame
+        // Add mainPanel to the center of the frame
+        this.add(mainPanel, BorderLayout.CENTER);
+    }
 
-        // set size of the frame to full screen
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Set the frame to full screen
-        setVisible(true); // Make the frame visible
-        setDefaultCloseOperation(EXIT_ON_CLOSE); // Set the default close operation
+    private void setupFrame() {
+        setSize(1600, 900);
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH); //make full screen
+
+        setLocationRelativeTo(null); // Center frame
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Adjust frame size listener
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                updateMainPanelSize();
+            }
+        });
+    }
+
+    private void updateMainPanelSize() {
+        int width = getWidth();
+        int height = getHeight();
+
+        // Calculate new sizes and positions for components
+        int imageListWidth = (int) (width * 0.2);
+        int composerWidth = (int) (width * 0.5);
+        int drawingWidth = (int) (width * 0.3);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Update constraints for imageListPanel
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = imageListWidth / (double) width;
+        gbc.weighty = 1.0;
+        mainPanel.getComponent(0).setPreferredSize(new Dimension(imageListWidth, height));
+
+        // Update constraints for composerPanel
+        gbc.gridx = 1;
+        gbc.weightx = composerWidth / (double) width;
+        mainPanel.getComponent(1).setPreferredSize(new Dimension(composerWidth, height));
+
+        // Update constraints for drawingPanel
+        gbc.gridx = 2;
+        gbc.weightx = drawingWidth / (double) width;
+        mainPanel.getComponent(2).setPreferredSize(new Dimension(drawingWidth, height));
+
+        // Revalidate and repaint mainPanel
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
     public DrawingPanel getDrawingPanel() {
