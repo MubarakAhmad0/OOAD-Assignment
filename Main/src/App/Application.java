@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Creations.AnimalImage;
 import Panels.LeftPanel;
 import Panels.RightPanel;
 import Creation.CreationImage;

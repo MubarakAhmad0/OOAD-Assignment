@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  * abstract layer for the images 
  * the functionalities on the images are declard yet not implemented 
 */
-public abstract class CreationImage implements TowDimensionTransformation{
+public class CreationImage implements TowDimensionTransformation{
     /* the dimensions of an Image */
     protected static final int WIDTH = 720; 
     protected static final int HEIGHT = 720; 
